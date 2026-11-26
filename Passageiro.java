@@ -1,10 +1,11 @@
 package br.com.elym.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Passageiro extends Usuario {
-    private List<Corrida> historicoCorridas;
+    private final List<Corrida> historicoCorridas;
 
     public Passageiro(int id, String nome, String email, String telefone, String senha) {
         super(id, nome, email, telefone, senha);
@@ -16,10 +17,16 @@ public class Passageiro extends Usuario {
     }
 
     public void adicionarCorrida(Corrida corrida) {
-        this.historicoCorridas.add(corrida);
+        if (corrida == null) {
+            throw new IllegalArgumentException("A corrida não pode ser nula.");
+        }
+
+        if (!historicoCorridas.contains(corrida)) {
+            historicoCorridas.add(corrida);
+        }
     }
 
     public List<Corrida> getHistoricoCorridas() {
-        return historicoCorridas;
+        return Collections.unmodifiableList(historicoCorridas);
     }
 }
